@@ -10,7 +10,47 @@ pgbouncers:
     # The pgbouncer connection string. Supports environment variables replacement
     # Ie. $(PGBOUNCER_PASS) is replaced with the content of "PGBOUNCER_PASS" environment
     #     variable if exist, or left untouched if doesn't exist
-    dsn: postgresql://$(PGBOUNCER_USER):$(PGBOUNCER_PASS)@$(PGBOUNCER_HOST):$(PGBOUNCER_PORT)/pgbouncer
+    dsn: $(PGBOUNCER_DB1)
 
     # The pgbouncer connection timeout in seconds (defaults to 5 seconds)
     connect_timeout: 5
+
+    # Databases to report metrics for. If omitted or empty, all databases
+    # will be reported.
+    include_databases:
+
+    # Databases to exclude from metrics reporting. If omitted or empty, all
+    # databases matching "include_databases" will be reported.
+    exclude_databases:
+      - pgbouncer
+
+    # Extra labels to add to all metrics exported for this pgbouncer
+    # instance. Required if you have configured multiple pgbouncers,
+    # in order to export an unique set of metrics.
+    extra_labels:
+      pool_id: 1
+  - dsn: $(PGBOUNCER_DB2)
+    exclude_databases:
+      - pgbouncer
+    extra_labels:
+      pool_id: 2
+  - dsn: $(PGBOUNCER_DB3)
+    exclude_databases:
+      - pgbouncer
+    extra_labels:
+      pool_id: 3
+  - dsn: $(PGBOUNCER_DB4)
+    exclude_databases:
+      - pgbouncer
+    extra_labels:
+      pool_id: 4
+  - dsn: $(PGBOUNCER_DB5)
+    exclude_databases:
+      - pgbouncer
+    extra_labels:
+      pool_id: 5
+  - dsn: $(PGBOUNCER_DB6)
+    exclude_databases:
+      - pgbouncer
+    extra_labels:
+      pool_id: 6
